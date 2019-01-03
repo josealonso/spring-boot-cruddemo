@@ -3,7 +3,6 @@ package com.jose.springboot.cruddemo.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -33,11 +32,13 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		// create a query
-		Query<Employee> theQuery = currentSession.createQuery("from Employee", Employee.class);
+		Query<Employee> theQuery = currentSession.createQuery("from Employee", Employee.class);  // using native Hibernate API
 
 		// execute query and get result list
-		List<Employee> employees = theQuery.getResultList();
-
+//		Employee employee2 = new Employee("Jorge", "Galf", "email");
+		List<Employee> employees = theQuery.getResultList();    // new ArrayList<>();
+//
+//		employees.add(employee2);
 		// return the results
 		return employees;
 	}
