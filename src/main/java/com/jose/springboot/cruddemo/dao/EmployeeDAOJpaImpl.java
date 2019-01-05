@@ -37,11 +37,9 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO {
 
 	@Override
 	public Employee findById(int theId) {
-		// get the current hibernate session
-		Session currentSession = entityManager.unwrap(Session.class);
-
+	
 		// get the employee
-		Employee theEmployee = currentSession.get(Employee.class, theId);
+		Employee theEmployee = entityManager.find(Employee.class, theId);
 
 		// return the employee
 		return theEmployee;
@@ -50,21 +48,19 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO {
 
 	@Override
 	public void save(Employee theEmployee) {
-		// get the current hibernate session
-		Session currentSession = entityManager.unwrap(Session.class);
 
-		// save employee
-		currentSession.saveOrUpdate(theEmployee);
+		// save or update the employee
+		Employee dbEmployee = entityManager.merge(theEmployee);
+		// update with id from db ... so we can get generated id for save/insert
+		theEmployee.setId(dbEmployee.getId());
 
 	}
 
 	@Override
 	public void deleteById(int theId) {
-		// get the current hibernate session
-		Session currentSession = entityManager.unwrap(Session.class);
 
   		// delete object with primary key
-		Query theQuery = currentSession.createQuery("delete from Employee wher id=:employeeId");
+		Query theQuery = entityManager.createQuery("delete from Employee wher id=:employeeId");
 		theQuery.setParameter("employeeId", theId);
         theQuery.executeUpdate();
 	}
