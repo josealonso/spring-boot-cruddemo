@@ -34,9 +34,9 @@ public class EmployeeRestController {
 		return employeeService.findAll();
 	}
 
-	// mapping for GET /employee/{employeeId}
+	// mapping for GET /employees/{employeeId}
 
-	@GetMapping("/employee/{employeeId}")
+	@GetMapping("/employees/{employeeId}")
 	public Employee getEmployee(@PathVariable int employeeId) {
 		Employee theEmployee = employeeService.findById(employeeId);
 		if (theEmployee == null) {
